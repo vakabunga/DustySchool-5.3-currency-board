@@ -1,0 +1,40 @@
+.app-container {
+    width: 260px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.app-header {
+    margin: 10px 0;
+}
+
+.table-row {
+    display: flex;
+}
+
+.table-cell,
+.currency-name-header,
+.currency-exchange-rate-header {
+    border: 1px solid #000;
+    padding: 3px;
+    box-sizing: border-box;
+    width: 130px;
+}
+
+.table-cell:first-child,
+.currency-name-header {
+    border-right: none;
+}
+
+.table-row-next {
+    border-top: none;
+}
+
+.currency-name-header,
+.currency-exchange-rate-header {
+    background-color: #b8fcf5;
+}
+
+.currency-exchange-rate-cell {
+    text-align: right;
+}
