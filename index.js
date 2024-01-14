@@ -1,8 +1,8 @@
 // create constants
 const page = document.querySelector('.page'); // page container
-const currencies = 'USD,AED,CNY,RUB'; // can be asked from user
 let currenciesRatesBase; // will set after API response
-const currenciesArray = currencies.split(',');
+const currenciesArray = ['USD', 'AED', 'CNY', 'RUB']; // can be asked from user
+const currencies = currenciesArray.toString();
 const currenciesNumber = currenciesArray.length;
 const baseCurrency = 'EUR'; // can be asked from user (required API paid plan); variable is not used in this app
 const API_KEY = localStorage.getItem('apiKey');
