@@ -1,12 +1,13 @@
-//create constants
-const page = document.querySelector('.page'); //page container
-const currencies = 'USD,AED,CNY,RUB'; //can be asked from user
-let currenciesRatesBase; //will set after API response
-const currenciesArray = currencies.split(',');
+// create constants
+const page = document.querySelector('.page'); // page container
+let currenciesRatesBase; // will set after API response
+const currenciesArray = ['USD', 'AED', 'CNY', 'RUB']; // can be asked from user
+const currencies = currenciesArray.toString();
 const currenciesNumber = currenciesArray.length;
-const baseCurrency = 'EUR'; //can be asked from user (required API paid plan) not used in this app
+const baseCurrency = 'EUR'; // can be asked from user (required API paid plan); variable is not used in this app
+const API_KEY = localStorage.getItem('apiKey');
 
-//create application container
+// create application container
 const appContainer = document.createElement('div');
 appContainer.classList.add('app-container');
 const appHeader = document.createElement('h5');
@@ -14,7 +15,7 @@ appHeader.classList.add('app-header');
 page.appendChild(appContainer);
 appContainer.appendChild(appHeader);
 
-//create row
+// create row
 function createRow(rowNumber) {
     const tableRow = document.createElement('div');
     tableRow.classList.add('table-row');
@@ -44,7 +45,7 @@ function createRow(rowNumber) {
     return tableRow;
 }
 
-//create currencies exchange rate table
+// create currencies exchange rate table
 function createTable(tableRows) {
     for (let i = -1; i < tableRows; i++) {
         const tableRow = createRow(i);
@@ -52,11 +53,15 @@ function createTable(tableRows) {
     }
 }
 
-//get data from API
+// get data from API
 function getCurrencyExchangeRates() {
-    fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${EXCHANGE_RATE_API_KEY}&symbols=${currencies}`)
+    fetch(`http://api.exchangeratesapi.io/v1/latest?access_key=${API_KEY}&symbols=${currencies}`)
         .then(response => response.json())
         .then(data => {
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
+
             for (i = 0; i < currenciesNumber; i++) {
                 const currencyCellData = document.querySelector(`[data-cell='${i}.1']`);
                 const currencyRateData = document.querySelector(`[data-cell='${i}.2']`);
@@ -65,8 +70,8 @@ function getCurrencyExchangeRates() {
             }
             appHeader.textContent = `Currencies Exchange Rate for ${data.base}`;
         })
-        .catch(() => {
-            appHeader.textContent = 'Oopsy! Something went wrong. Stay here or reload the page';
+        .catch((error) => {
+            appHeader.textContent = error;
         })
         .finally(() => {
             setTimeout(getCurrencyExchangeRates, 60000);
